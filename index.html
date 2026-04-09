@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zum Gemalten Haus — Apfelwein-Wirtschaft Frankfurt seit 1936</title>
+<meta name="description" content="Frankfurts traditionsreichste Apfelwein-Wirtschaft im Herzen Sachsenhausens. Seit 1936 — Grüne Soße, Rippchen, das echte Stöffche.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f0a;
+    --surface: #111811;
+    --surface2: #162016;
+    --accent: #2E6B3A;
+    --accent-light: #3d8a4a;
+    --accent-border: rgba(46,107,58,0.35);
+    --accent-glow: rgba(46,107,58,0.12);
+    --text: #e8ede8;
+    --text-muted: #8a9e8a;
+    --gold: #C9A55A;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ── PRELOADER ── */
+  #preloader {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1.4rem;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #preloader.hidden { opacity: 0; visibility: hidden; }
+
+  .preloader-emblem {
+    width: 60px; height: 60px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preloader-glass {
+    font-size: 2.6rem;
+    animation: float-glass 2s ease-in-out infinite;
+  }
+  @keyframes float-glass {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50% { transform: translateY(-8px) rotate(4deg); }
+  }
+  .preloader-drops {
+    position: absolute;
+    bottom: -8px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 4px;
+  }
+  .preloader-drops span {
+    width: 4px; height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: drip 1.4s ease-in-out infinite;
+  }
+  .preloader-drops span:nth-child(2) { animation-delay: 0.2s; }
+  .preloader-drops span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes drip {
+    0%, 100% { opacity: 0; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(6px); }
+  }
+  .preloader-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .preloader-line {
+    width: 120px; height: 1px;
+    background: var(--accent-border);
+    position: relative; overflow: hidden;
+  }
+  .preloader-line::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--accent);
+    animation: sweep 1.6s ease-in-out infinite;
+  }
+  @keyframes sweep { 0% { left: -100%; } 100% { left: 100%; } }
+
+  /* ── SCROLL PROGRESS ── */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,15,10,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0.9rem 3rem;
+    border-bottom: 1px solid var(--accent-border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--accent-border);
+    color: var(--accent-light) !important;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: var(--text) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh; min-height: 620px;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=1800&q=85');
+    background-size: cover;
+    background-position: center 35%;
+    transform: scale(1.05);
+    transition: transform 10s ease-out;
+  }
+  .hero-bg.loaded { transform: scale(1); }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10,15,10,0.25) 0%,
+      rgba(10,15,10,0.15) 40%,
+      rgba(10,15,10,0.65) 75%,
+      rgba(10,15,10,0.97) 100%
+    );
+  }
+
+  /* Geripptes glass decorative element */
+  .hero-glass-deco {
+    position: absolute;
+    top: 15vh; right: 6vw;
+    width: 160px; height: 200px;
+    border: 1px solid var(--accent-border);
+    border-radius: 4px 4px 12px 12px;
+    opacity: 0.25;
+  }
+  .hero-glass-deco::before {
+    content: '';
+    position: absolute;
+    top: 12px; left: 12px; right: 12px;
+    height: 40px;
+    border-bottom: 1px solid var(--accent-border);
+  }
+  .hero-glass-deco::after {
+    content: '';
+    position: absolute;
+    bottom: -18px; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 18px;
+    border: 1px solid var(--accent-border);
+    border-top: none;
+  }
+
+  /* Vine leaf pattern */
+  .hero-vine {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.06;
+  }
+  .hero-vine::before {
+    content: '🍃';
+    position: absolute;
+    font-size: 8rem;
+    top: 10vh; left: 4vw;
+    filter: grayscale(1);
+  }
+
+  /* Year badge */
+  .hero-year-badge {
+    position: absolute;
+    top: 22vh; left: 5vw;
+    border: 1px solid var(--accent-border);
+    padding: 0.8rem 1.4rem;
+    text-align: center;
+    background: rgba(10,15,10,0.6);
+    backdrop-filter: blur(4px);
+  }
+  .hero-year-badge .year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--accent-light);
+    line-height: 1;
+    display: block;
+  }
+  .hero-year-badge .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  /* Apfelwein line at hero bottom */
+  .hero-apfelwein-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--accent) 30%,
+      var(--accent-light) 50%,
+      var(--accent) 70%,
+      transparent 100%
+    );
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 6vw 6rem;
+    max-width: 800px;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent-light);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.9rem 2.2rem;
+    background: var(--accent);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--accent-light); }
+  .btn-outline {
+    padding: 0.9rem 2.2rem;
+    border: 1px solid var(--accent-border);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ── HERITAGE BAR ── */
+  .heritage-bar {
+    background: var(--accent);
+    padding: 1.2rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .heritage-item {
+    display: flex; align-items: center; gap: 0.8rem;
+    color: rgba(255,255,255,0.9);
+  }
+  .heritage-item .hi-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1;
+  }
+  .heritage-item .hi-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    line-height: 1.3;
+  }
+  .heritage-divider {
+    width: 1px; height: 36px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 5rem 6vw; }
+  .section-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+  .section-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 55ch;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── STORY ── */
+  .story-section { background: var(--surface); }
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+  .story-image-stack {
+    position: relative;
+    height: 500px;
+  }
+  .story-img-main {
+    width: 80%;
+    height: 360px;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    filter: brightness(0.88);
+  }
+  .story-img-accent {
+    width: 60%;
+    height: 240px;
+    object-fit: cover;
+    position: absolute;
+    bottom: 0; right: 0;
+    border: 4px solid var(--surface);
+    filter: brightness(0.85);
+  }
+  .story-accent-box {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--accent-border);
+    padding: 0.8rem 1.2rem;
+    background: rgba(10,15,10,0.85);
+    text-align: center;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+  }
+  .story-accent-box .sab-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--accent-light);
+    display: block;
+  }
+  .story-accent-box .sab-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .story-body p {
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .story-body strong { color: var(--text); font-weight: 400; }
+
+  /* Tagline highlight */
+  .tagline-block {
+    margin: 2rem 0;
+    padding: 1.6rem 2rem;
+    border-left: 3px solid var(--accent);
+    background: var(--surface2);
+  }
+  .tagline-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text) !important;
+    margin: 0 !important;
+    line-height: 1.4;
+  }
+  .tagline-block span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted) !important;
+    margin-top: 0.6rem;
+  }
+
+  /* ── APFELWEIN SECTION ── */
+  .apfelwein-section {
+    background: var(--accent);
+    padding: 4rem 6vw;
+  }
+  .apfelwein-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+  .apfelwein-text .section-eyebrow { color: rgba(255,255,255,0.7); }
+  .apfelwein-text .section-eyebrow::before { background: rgba(255,255,255,0.4); }
+  .apfelwein-text .section-title { color: var(--white); }
+  .apfelwein-text p {
+    color: rgba(255,255,255,0.82);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+  .apfelwein-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .af-card {
+    background: rgba(0,0,0,0.2);
+    padding: 1.4rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .af-card .afc-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .af-card .afc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .af-card .afc-desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-section { background: var(--bg); padding-top: 4rem; padding-bottom: 0; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 260px 260px;
+    gap: 6px;
+    margin-top: 2.5rem;
+  }
+  .gallery-grid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.82);
+    transition: filter 0.4s;
+    display: block;
+  }
+  .gallery-grid img:hover { filter: brightness(1); }
+  .g1 { grid-column: 1 / 6; grid-row: 1 / 2; }
+  .g2 { grid-column: 6 / 9; grid-row: 1 / 2; }
+  .g3 { grid-column: 9 / 13; grid-row: 1 / 3; }
+  .g4 { grid-column: 1 / 4; grid-row: 2 / 3; }
+  .g5 { grid-column: 4 / 9; grid-row: 2 / 3; }
+
+  /* ── SPEISEKARTE ── */
+  .menu-section { background: var(--surface); }
+  .menu-highlight {
+    background: var(--surface2);
+    border: 1px solid var(--accent-border);
+    padding: 2rem 2.4rem;
+    margin-bottom: 2.5rem;
+    display: flex; align-items: center; gap: 2.5rem;
+  }
+  .menu-highlight .mh-icon {
+    font-size: 2.8rem;
+    flex-shrink: 0;
+  }
+  .menu-highlight .mh-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .menu-highlight .mh-text p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    max-width: 55ch;
+  }
+  .menu-highlight .mh-award {
+    margin-left: auto;
+    flex-shrink: 0;
+    border: 1px solid var(--accent-border);
+    padding: 0.6rem 1rem;
+    text-align: center;
+  }
+  .menu-highlight .mh-award span {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--accent-light);
+  }
+  .menu-highlight .mh-award small {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--accent-border);
+    border: 1px solid var(--accent-border);
+  }
+  .menu-card {
+    background: var(--surface);
+    padding: 1.8rem;
+    transition: background 0.2s;
+  }
+  .menu-card:hover { background: var(--surface2); }
+  .menu-card .mc-category {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.6rem;
+  }
+  .menu-card .mc-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+  .menu-card .mc-desc {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── BREZELBUB ── */
+  .brezelbub-section {
+    background: var(--bg);
+    padding: 4rem 6vw;
+  }
+  .brezelbub-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1000px;
+    border: 1px solid var(--accent-border);
+    padding: 3rem;
+  }
+  .brezelbub-text .bb-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.8rem;
+  }
+  .brezelbub-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+  .brezelbub-text p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 0.8rem;
+  }
+  .brezelbub-visual {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .brezelbub-icon {
+    font-size: 5rem;
+    animation: float-glass 3s ease-in-out infinite;
+  }
+  .brezelbub-caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ── PANORAMA ── */
+  .panorama {
+    height: 380px;
+    background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=85');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+  .panorama-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,15,10,0.6);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.6rem;
+  }
+  .panorama-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    text-align: center;
+    max-width: 700px;
+    padding: 0 2rem;
+    line-height: 1.3;
+  }
+  .panorama-attr {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── ÖFFNUNGSZEITEN ── */
+  .hours-section { background: var(--surface); }
+  .hours-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 900px;
+  }
+  .hours-table { width: 100%; }
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row .day {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .hours-row .time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .hours-row.closed .day { color: rgba(138,158,138,0.45); }
+  .hours-row.closed .time {
+    color: rgba(180,60,60,0.7);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+  .hours-row.today .day { color: var(--accent-light); font-weight: 500; }
+  .hours-row.today .time { color: var(--accent-light); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.4rem; }
+  .ci-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .ci-item .ci-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    color: var(--accent-light);
+  }
+  .ci-item .ci-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .ci-item .ci-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .ci-item a { color: var(--text); text-decoration: none; }
+  .ci-item a:hover { color: var(--accent-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--accent-border);
+    padding: 3rem 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+  .footer-logo span { color: var(--accent-light); }
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(138,158,138,0.4);
+    letter-spacing: 0.06em;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.75rem;
+    color: rgba(138,158,138,0.5);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--text-muted); }
+
+  /* ── BACK TO TOP ── */
+  #back-to-top {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s, background 0.2s;
+    z-index: 50;
+    color: white;
+    font-size: 1.2rem;
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { background: var(--accent-light); }
+
+  /* ── COOKIE BANNER ── */
+  #cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(17,24,17,0.97);
+    border-top: 1px solid var(--accent-border);
+    backdrop-filter: blur(12px);
+    padding: 1.2rem 4vw;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap;
+    z-index: 999;
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+  }
+  #cookie-banner.hidden { transform: translateY(100%); }
+  #cookie-banner p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    max-width: 65ch;
+    line-height: 1.5;
+  }
+  #cookie-banner p a { color: var(--accent-light); text-decoration: none; }
+  #cookie-accept {
+    padding: 0.6rem 1.6rem;
+    background: var(--accent);
+    color: white;
+    border: none; cursor: pointer;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  #cookie-accept:hover { background: var(--accent-light); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.2rem; }
+    nav.scrolled { padding: 0.7rem 1.2rem; }
+    .nav-links { display: none; }
+    section { padding: 3.5rem 5vw; }
+    .story-grid,
+    .apfelwein-inner,
+    .hours-layout,
+    .brezelbub-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .story-image-stack { height: 320px; }
+    .story-img-main { width: 100%; height: 240px; }
+    .story-img-accent { display: none; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: 200px 200px; }
+    .g1 { grid-column: 1 / 5; }
+    .g2 { grid-column: 5 / 7; }
+    .g3 { grid-column: 5 / 7; grid-row: 2 / 3; }
+    .g4 { grid-column: 1 / 4; grid-row: 2 / 3; }
+    .g5 { display: none; }
+    .apfelwein-facts { grid-template-columns: 1fr 1fr; }
+    .panorama { background-attachment: scroll; }
+    .hero-glass-deco { display: none; }
+    .menu-highlight { flex-direction: column; align-items: flex-start; }
+    .menu-highlight .mh-award { margin-left: 0; }
+    .brezelbub-inner { border: none; padding: 0; }
+    footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  }
+  @media (max-width: 600px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .apfelwein-facts { grid-template-columns: 1fr; }
+    .heritage-bar { flex-direction: column; gap: 0.8rem; }
+    .heritage-divider { width: 60px; height: 1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="preloader-emblem">
+    <div class="preloader-glass">🍺</div>
+    <div class="preloader-drops">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="preloader-text">Zum Gemalten Haus</div>
+  <div class="preloader-line"></div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">Zum <span>Gemalten</span> Haus</a>
+  <ul class="nav-links">
+    <li><a href="#geschichte">Geschichte</a></li>
+    <li><a href="#apfelwein">Apfelwein</a></li>
+    <li><a href="#speisekarte">Speisekarte</a></li>
+    <li><a href="#besuchen" class="nav-cta">Besuchen</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="start">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-vine"></div>
+  <div class="hero-glass-deco"></div>
+
+  <div class="hero-year-badge">
+    <span class="year">1936</span>
+    <span class="label">Seit</span>
+  </div>
+
+  <div class="hero-apfelwein-line"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Sachsenhausen · Frankfurt am Main</div>
+    <h1 class="hero-title">
+      Das echte<br>
+      <em>Stöffche.</em>
+    </h1>
+    <p class="hero-subtitle">Frankfurts traditionsreichste Apfelwein-Wirtschaft — drei Generationen, eine Leidenschaft.</p>
+    <div class="hero-actions">
+      <a href="#speisekarte" class="btn-primary">Zur Speisekarte</a>
+      <a href="#besuchen" class="btn-outline">Uns besuchen</a>
+    </div>
+  </div>
+</section>
+
+<!-- HERITAGE BAR -->
+<div class="heritage-bar">
+  <div class="heritage-item">
+    <span class="hi-num">1936</span>
+    <span class="hi-label">Gegründet in<br>Sachsenhausen</span>
+  </div>
+  <div class="heritage-divider"></div>
+  <div class="heritage-item">
+    <span class="hi-num">3</span>
+    <span class="hi-label">Generationen<br>Familie Ullmer</span>
+  </div>
+  <div class="heritage-divider"></div>
+  <div class="heritage-item">
+    <span class="hi-num">90</span>
+    <span class="hi-label">Jahre<br>Tradition</span>
+  </div>
+  <div class="heritage-divider"></div>
+  <div class="heritage-item">
+    <span class="hi-num">1×</span>
+    <span class="hi-label">Ausgezeichnete<br>Grüne Soße</span>
+  </div>
+</div>
+
+<!-- GESCHICHTE -->
+<section class="story-section" id="geschichte">
+  <div class="story-grid">
+    <div class="story-image-stack reveal">
+      <img class="story-img-main" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Traditionelle Wirtschaft">
+      <img class="story-img-accent" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Frankfurter Küche">
+      <div class="story-accent-box">
+        <span class="sab-num">∼90</span>
+        <span class="sab-label">Jahre Gastlichkeit</span>
+      </div>
+    </div>
+    <div class="story-body reveal">
+      <div class="section-eyebrow">Unsere Geschichte</div>
+      <h2 class="section-title">Drei Generationen,<br>eine Wirtschaft</h2>
+      <p>Seit 1936 öffnet das Gemalte Haus seine Türen im Herzen von Sachsenhausen — einem Stadtteil, der wie kein anderer für die Frankfurter Apfelwein-Kultur steht. Gegründet von der Familie Ullmer, heute geführt in dritter Generation, hat sich hier in all den Jahrzehnten das Wesentliche nicht verändert.</p>
+      <p>Die <strong>bemalten Fassaden</strong>, die das Haus seinen Namen verdankt, das Klackern der gerippten Gläser, das Raunen der Gäste — all das bildet eine Atmosphäre, die man in keinem neu eröffneten Restaurant findet. Hier ist Geschichte spürbar.</p>
+
+      <div class="tagline-block">
+        <p>„Heut wird ausgeschellt!"</p>
+        <span>— Der Ruf, der Sachsenhausen zusammenbringt</span>
+      </div>
+
+      <p>Das Gemalte Haus ist mehr als ein Lokal — es ist <strong>Treffpunkt, Heimat, Institution</strong>. Für Frankfurter, die hier aufgewachsen sind. Für Besucher, die das echte Frankfurt kennenlernen wollen. Für alle, die wissen, dass ein Geripptes hier anders schmeckt als überall sonst.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APFELWEIN -->
+<section class="apfelwein-section" id="apfelwein">
+  <div class="apfelwein-inner">
+    <div class="apfelwein-text reveal">
+      <div class="section-eyebrow">Das Stöffche</div>
+      <h2 class="section-title">Apfelwein —<br>Frankfurts Seele im Glas</h2>
+      <p>Das „goldgelbe Stöffche" ist nicht einfach Getränk. Es ist Kulturerbe, Identität, Lebensart. Im Gemalten Haus wird Apfelwein so serviert, wie es sein muss: frisch aus dem Bembel, im gerippten Glas, ohne Schnickschnack.</p>
+      <p>Die <strong>Geripptes-Gläser</strong> — mit ihrer charakteristischen Rautenstruktur — sind seit Generationen das Symbol der Sachsenhäuser Wirtschaft. Sie kühlen das Stöffche, geben Halt, und ihr Klingen beim Anstoßen ist der Klang Frankfurts.</p>
+    </div>
+    <div class="apfelwein-facts reveal">
+      <div class="af-card">
+        <span class="afc-icon">🍺</span>
+        <span class="afc-title">Das Gerippte</span>
+        <div class="afc-desc">Das iconic gerippte Glas — Pflichtgefäß für jeden Apfelwein in Sachsenhausen</div>
+      </div>
+      <div class="af-card">
+        <span class="afc-icon">🫙</span>
+        <span class="afc-title">Aus dem Bembel</span>
+        <div class="afc-desc">Frisch ausgeschenkt aus dem blauen Steingutgefäß — die traditionelle Art</div>
+      </div>
+      <div class="af-card">
+        <span class="afc-icon">🍏</span>
+        <span class="afc-title">Rheingau-Äpfel</span>
+        <div class="afc-desc">Die besten Äpfel aus dem Rheingau und Taunus für das echte Stöffche</div>
+      </div>
+      <div class="af-card">
+        <span class="afc-icon">⭐</span>
+        <span class="afc-title">Saurer & Süßer</span>
+        <div class="afc-desc">Trocken, halbtrocken oder süß — für jeden Geschmack das richtige Stöffche</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="galerie">
+  <div class="section-eyebrow reveal">Impressionen</div>
+  <h2 class="section-title reveal">Sachsenhausener<br>Wirtshauskultur</h2>
+  <div class="gallery-grid reveal">
+    <img class="g1" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80" alt="Gastraum">
+    <img class="g2" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" alt="Grüne Soße">
+    <img class="g3" src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=85" alt="Getränke">
+    <img class="g4" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Küche">
+    <img class="g5" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="Außenbereich">
+  </div>
+</section>
+
+<!-- SPEISEKARTE -->
+<section class="menu-section" id="speisekarte">
+  <div class="section-eyebrow reveal">Küche</div>
+  <h2 class="section-title reveal">Frankfurter<br>Hausmannskost</h2>
+  <p class="section-subtitle reveal">Ehrliche Gerichte, ehrliche Preise — so wie es seit 1936 ist.</p>
+
+  <div class="menu-highlight reveal">
+    <div class="mh-icon">🥗</div>
+    <div class="mh-text">
+      <h3>Frankfurter Grüne Soße — Das Signature-Gericht</h3>
+      <p>Die mit frischen Kräutern zubereitete Grüne Soße ist das Herzstück der Frankfurter Küche — und im Gemalten Haus hat sie Auszeichnungen gewonnen. Serviert mit Eiern und Salzkartoffeln, wie es sich gehört.</p>
+    </div>
+    <div class="mh-award">
+      <span>Ausgezeichnet</span>
+      <small>Beste Grüne Soße</small>
+    </div>
+  </div>
+
+  <div class="menu-grid reveal">
+    <div class="menu-card">
+      <div class="mc-category">Klassiker</div>
+      <div class="mc-name">Grüne Soße mit Eiern</div>
+      <div class="mc-desc">Sieben frische Kräuter, hartgekochte Eier, Salzkartoffeln — das Original aus Frankfurt</div>
+    </div>
+    <div class="menu-card">
+      <div class="mc-category">Fleisch</div>
+      <div class="mc-name">Rippchen mit Kraut</div>
+      <div class="mc-desc">Gepökeltes Schweinebauchfleisch mit Sauerkraut — der Sachsenhausener Klassiker</div>
+    </div>
+    <div class="menu-card">
+      <div class="mc-category">Käse</div>
+      <div class="mc-name">Handkäs mit Musik</div>
+      <div class="mc-desc">Sauerrahm-Käse mit Zwiebelringen in Essig-Öl-Marinade — untrennbar mit dem Stöffche</div>
+    </div>
+    <div class="menu-card">
+      <div class="mc-category">Beilage</div>
+      <div class="mc-name">Bratkartoffeln</div>
+      <div class="mc-desc">Knusprig gebratene Kartoffeln mit Speck und Zwiebeln — hausgemacht</div>
+    </div>
+    <div class="menu-card">
+      <div class="mc-category">Wurst</div>
+      <div class="mc-name">Bratwurst mit Brötchen</div>
+      <div class="mc-desc">Grobe Bratwurst, frisch gegrillt — dazu ein Bembel Stöffche</div>
+    </div>
+    <div class="menu-card">
+      <div class="mc-category">Käse</div>
+      <div class="mc-name">Camembert</div>
+      <div class="mc-desc">Gebratener Camembert mit Preiselbeeren und Toastbrot — zum Abschluss</div>
+    </div>
+  </div>
+</section>
+
+<!-- BREZELBUB -->
+<section class="brezelbub-section" id="brezelbub">
+  <div class="brezelbub-inner reveal">
+    <div class="brezelbub-text">
+      <div class="bb-eyebrow">Eine Tradition</div>
+      <h2>Der Brezelbub</h2>
+      <p>Wer im Gemalten Haus sitzt, kennt ihn: den Brezelbub. Mit seinem Korb voller frisch gebackener Brezeln, Laugenstangen und Backwaren zieht er durch die Wirtschaft — eine Tradition, die es so nur noch in wenigen Frankfurter Lokalen gibt.</p>
+      <p>Ein kleines Stück altes Frankfurt, das hier noch lebt. Nicht weil man es pflegen müsste — sondern weil es einfach dazugehört.</p>
+    </div>
+    <div class="brezelbub-visual">
+      <div class="brezelbub-icon">🥨</div>
+      <div class="brezelbub-caption">„Wer hat Hunger auf a Brezel?"</div>
+    </div>
+  </div>
+</section>
+
+<!-- PANORAMA -->
+<div class="panorama">
+  <div class="panorama-overlay">
+    <div class="panorama-quote">„Das goldgelbe Stöffche schmeckt nirgendwo so gut wie hier."</div>
+    <div class="panorama-attr">— Sachsenhausen, Frankfurt am Main</div>
+  </div>
+</div>
+
+<!-- ÖFFNUNGSZEITEN & KONTAKT -->
+<section class="hours-section" id="besuchen">
+  <div class="section-eyebrow reveal">Besuchen</div>
+  <h2 class="section-title reveal">Öffnungszeiten<br>& Kontakt</h2>
+
+  <div class="hours-layout reveal">
+    <div>
+      <table class="hours-table">
+        <tr class="hours-row closed">
+          <td class="day">Montag</td>
+          <td class="time">Ruhetag</td>
+        </tr>
+        <tr class="hours-row closed">
+          <td class="day">Dienstag</td>
+          <td class="time">Ruhetag</td>
+        </tr>
+        <tr class="hours-row">
+          <td class="day">Mittwoch</td>
+          <td class="time">11:00 – 23:00</td>
+        </tr>
+        <tr class="hours-row">
+          <td class="day">Donnerstag</td>
+          <td class="time">11:00 – 23:00</td>
+        </tr>
+        <tr class="hours-row">
+          <td class="day">Freitag</td>
+          <td class="time">11:00 – 24:00</td>
+        </tr>
+        <tr class="hours-row">
+          <td class="day">Samstag</td>
+          <td class="time">11:00 – 24:00</td>
+        </tr>
+        <tr class="hours-row">
+          <td class="day">Sonntag</td>
+          <td class="time">11:00 – 23:00</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="contact-info">
+      <div class="ci-item">
+        <div class="ci-icon">📍</div>
+        <div>
+          <span class="ci-label">Adresse</span>
+          <div class="ci-value">Schweizer Straße 67<br>60594 Frankfurt am Main</div>
+        </div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-icon">📞</div>
+        <div>
+          <span class="ci-label">Telefon</span>
+          <a href="tel:+496961455" class="ci-value">+49 69 61 45 59</a>
+        </div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-icon">✉</div>
+        <div>
+          <span class="ci-label">E-Mail</span>
+          <a href="mailto:info@zumgemaltenhaus.de" class="ci-value">info@zumgemaltenhaus.de</a>
+        </div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-icon">🌐</div>
+        <div>
+          <span class="ci-label">Viertel</span>
+          <div class="ci-value">Sachsenhausen, Frankfurt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Zum <span>Gemalten</span> Haus</div>
+  <div class="footer-copy">© 2026 Zum Gemalten Haus · Schweizer Str. 67 · Frankfurt</div>
+  <div class="footer-links">
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+    <a href="#">Kontakt</a>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Nach oben">↑</button>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner">
+  <p>Diese Website verwendet Cookies für ein optimales Erlebnis. Mit der Nutzung stimmen Sie unserer <a href="#">Datenschutzerklärung</a> zu.</p>
+  <button id="cookie-accept">Akzeptieren</button>
+</div>
+
+<script>
+  // Preloader
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('preloader').classList.add('hidden');
+      document.getElementById('hero-bg').classList.add('loaded');
+    }, 900);
+  });
+
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = (scrollTop / docHeight) * 100;
+    document.getElementById('scroll-progress').style.width = pct + '%';
+
+    // Nav scroll effect
+    document.getElementById('main-nav').classList.toggle('scrolled', scrollTop > 60);
+
+    // Back to top
+    document.getElementById('back-to-top').classList.toggle('visible', scrollTop > 500);
+  });
+
+  // Back to top
+  document.getElementById('back-to-top').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Cookie banner
+  if (localStorage.getItem('cookie-accepted')) {
+    document.getElementById('cookie-banner').classList.add('hidden');
+  }
+  document.getElementById('cookie-accept').addEventListener('click', () => {
+    localStorage.setItem('cookie-accepted', '1');
+    document.getElementById('cookie-banner').classList.add('hidden');
+  });
+
+  // IntersectionObserver reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
