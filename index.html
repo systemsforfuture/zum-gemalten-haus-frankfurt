@@ -906,6 +906,25 @@
     .heritage-bar { flex-direction: column; gap: 0.8rem; }
     .heritage-divider { width: 60px; height: 1px; }
   }
+
+.animate-on-scroll{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.animate-on-scroll.animate-in{opacity:1;transform:translateY(0)}
+.animate-on-scroll:nth-child(2){transition-delay:.1s}
+.animate-on-scroll:nth-child(3){transition-delay:.2s}
+.animate-on-scroll:nth-child(4){transition-delay:.3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gallery-item{aspect-ratio:4/3;border-radius:var(--radius,12px);overflow:hidden;cursor:pointer;position:relative}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gallery-item:hover img{transform:scale(1.08)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.review-card{padding:32px;border-radius:var(--radius,12px);position:relative}
+.review-stars{color:#F59E0B;font-size:1.1rem;margin-bottom:12px;letter-spacing:2px}
+.review-text{font-size:.95rem;line-height:1.7;margin-bottom:16px;font-style:italic}
+.review-author{font-weight:600;font-size:.9rem}
+.review-source{font-size:.8rem;opacity:.6;margin-top:2px}
+@media(max-width:768px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.reviews-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1210,6 +1229,36 @@
 </section>
 
 <!-- FOOTER -->
+
+<section id="bewertungen" style="padding:100px 0">
+<div class="container">
+<div class="section-header center">
+<div class="section-label">Bewertungen</div>
+<h2 class="section-title">Das sagen unsere Kunden</h2>
+<p class="section-desc">Überzeugen Sie sich selbst von der Qualität unserer Arbeit.</p>
+</div>
+<div class="reviews-grid">
+<div class="review-card animate-on-scroll" style="background:var(--bg-soft,#f8f9fc);border:1px solid var(--border,#e8eaef)">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">„Hervorragendes Essen und ein wunderbarer Service. Wir kommen definitiv wieder!“</p>
+<div class="review-author">M. Schmidt</div>
+<div class="review-source">Google Bewertung</div>
+</div>
+<div class="review-card animate-on-scroll" style="background:var(--bg-soft,#f8f9fc);border:1px solid var(--border,#e8eaef)">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">„Die Atmosphäre ist einzigartig. Perfekt für besondere Anlässe.“</p>
+<div class="review-author">K. Weber</div>
+<div class="review-source">TripAdvisor Bewertung</div>
+</div>
+<div class="review-card animate-on-scroll" style="background:var(--bg-soft,#f8f9fc);border:1px solid var(--border,#e8eaef)">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">„Eines der besten Restaurants der Stadt. Die Weinauswahl ist erstklassig.“</p>
+<div class="review-author">L. Fischer</div>
+<div class="review-source">Google Bewertung</div>
+</div>
+</div>
+</div>
+</section>
 <footer>
   <div class="footer-logo">Zum <span>Gemalten</span> Haus</div>
   <div class="footer-copy">© 2026 Zum Gemalten Haus · Schweizer Str. 67 · Frankfurt</div>
@@ -1277,6 +1326,93 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var toggle=document.querySelector('.mobile-toggle');
+  var nav=document.querySelector('.nav-links');
+  if(toggle&&nav){toggle.addEventListener('click',function(){nav.classList.toggle('open');toggle.classList.toggle('active')})}
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('animate-in');observer.unobserve(e.target)}})
+  },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)});
+  var navbar=document.querySelector('nav');
+  window.addEventListener('scroll',function(){
+    var st=window.scrollY;
+    if(navbar){if(st>50)navbar.classList.add('scrolled');else navbar.classList.remove('scrolled')}
+  });
+  document.querySelectorAll('.counter').forEach(function(counter){
+    var obs2=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var target=+e.target.dataset.target;
+          var suffix=e.target.dataset.suffix||'';
+          var dur=1500;var start=performance.now();
+          var animate=function(now){
+            var elapsed=now-start;var progress=Math.min(elapsed/dur,1);
+            var eased=1-Math.pow(1-progress,3);
+            e.target.textContent=Math.round(target*eased).toLocaleString('de-DE');
+            if(progress<1)requestAnimationFrame(animate);
+            else e.target.textContent=target.toLocaleString('de-DE')+suffix;
+          };
+          requestAnimationFrame(animate);obs2.unobserve(e.target);
+        }
+      });
+    },{threshold:0.5});
+    obs2.observe(counter);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var target=document.querySelector(a.getAttribute('href'));
+      if(target){target.scrollIntoView({behavior:'smooth',block:'start'})}
+      if(nav&&nav.classList.contains('open')){nav.classList.remove('open');if(toggle)toggle.classList.remove('active')}
+    });
+  });
+  var hero=document.querySelector('.hero-img,.hero-visual,.hero');
+  if(hero&&window.innerWidth>768){
+    window.addEventListener('scroll',function(){
+      var st=window.scrollY;
+      if(st<800){hero.style.transform='translateY('+st*0.15+'px)'}
+    });
+  }
+  document.querySelectorAll('.gallery-item').forEach(function(item){
+    item.addEventListener('click',function(){
+      var img=item.querySelector('img');
+      if(!img)return;
+      var src=img.src;
+      var overlay=document.createElement('div');
+      overlay.className='lightbox-overlay';
+      overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:10000;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:fadeIn .3s';
+      var content=document.createElement('div');
+      content.className='lightbox-content';
+      var lbImg=document.createElement('img');
+      lbImg.src=src;
+      lbImg.alt='Gallery';
+      lbImg.style.cssText='max-width:90vw;max-height:85vh;border-radius:8px;object-fit:contain';
+      var closeBtn=document.createElement('button');
+      closeBtn.className='lightbox-close';
+      closeBtn.textContent='\u00D7';
+      closeBtn.style.cssText='position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:2.5rem;cursor:pointer;line-height:1';
+      content.appendChild(lbImg);
+      content.appendChild(closeBtn);
+      overlay.appendChild(content);
+      overlay.addEventListener('click',function(){overlay.remove()});
+      document.body.appendChild(overlay);
+    });
+  });
+  var btt=document.createElement('button');
+  btt.textContent='\u2191';
+  btt.className='back-to-top';
+  btt.style.cssText='position:fixed;bottom:32px;right:32px;width:48px;height:48px;border-radius:50%;border:none;background:var(--accent,#333);color:#fff;font-size:1.2rem;cursor:pointer;opacity:0;transform:translateY(20px);transition:all .3s;z-index:9000;box-shadow:0 4px 20px rgba(0,0,0,.2)';
+  document.body.appendChild(btt);
+  btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>600){btt.style.opacity='1';btt.style.transform='translateY(0)'}
+    else{btt.style.opacity='0';btt.style.transform='translateY(20px)'}
+  });
+});
 </script>
 </body>
 </html>
